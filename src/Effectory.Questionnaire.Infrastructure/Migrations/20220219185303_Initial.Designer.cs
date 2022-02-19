@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Effectory.Questionnaire.Infrastructure.Migrations
 {
     [DbContext(typeof(QuestionnaireDbContext))]
-    [Migration("20220219181322_Initial")]
+    [Migration("20220219185303_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,7 +49,9 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionId", "OptionId");
+                    b.HasIndex("OptionId");
+
+                    b.HasIndex("QuestionId");
 
                     b.ToTable("Answers");
                 });
@@ -139,19 +141,22 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
 
             modelBuilder.Entity("Effectory.Questionnaire.Domain.Entities.QuestionAnswerOption", b =>
                 {
-                    b.Property<long>("OptionId")
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint");
 
-                    b.Property<long>("QuestionId")
-                        .HasColumnType("bigint");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("integer");
 
+                    b.Property<long>("QuestionId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Text")
                         .HasColumnType("text");
 
-                    b.HasKey("OptionId", "QuestionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
@@ -160,254 +165,254 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            OptionId = 17969124L,
+                            Id = 17969124L,
+                            DisplayOrder = 0,
                             QuestionId = 3807638L,
-                            DisplayOrder = 0,
                             Text = "{\"nl-NL\":\"Helemaal mee oneens\",\"en-US\":\"Strongly disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969123L,
+                            Id = 17969123L,
+                            DisplayOrder = 1,
                             QuestionId = 3807638L,
-                            DisplayOrder = 1,
                             Text = "{\"nl-NL\":\"Mee oneens\",\"en-US\":\"Disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969122L,
+                            Id = 17969122L,
+                            DisplayOrder = 2,
                             QuestionId = 3807638L,
-                            DisplayOrder = 2,
                             Text = "{\"nl-NL\":\"Niet mee eens/ niet mee oneens\",\"en-US\":\"Neither agree nor disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969121L,
+                            Id = 17969121L,
+                            DisplayOrder = 3,
                             QuestionId = 3807638L,
-                            DisplayOrder = 3,
                             Text = "{\"nl-NL\":\"Mee eens\",\"en-US\":\"Agree\"}"
                         },
                         new
                         {
-                            OptionId = 17969120L,
+                            Id = 17969120L,
+                            DisplayOrder = 4,
                             QuestionId = 3807638L,
-                            DisplayOrder = 4,
                             Text = "{\"nl-NL\":\"Helemaal mee eens\",\"en-US\":\"Strongly agree\"}"
                         },
                         new
                         {
-                            OptionId = 17969149L,
+                            Id = 17969149L,
+                            DisplayOrder = 0,
                             QuestionId = 3807643L,
-                            DisplayOrder = 0,
                             Text = "{\"nl-NL\":\"Helemaal mee oneens\",\"en-US\":\"Strongly disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969148L,
+                            Id = 17969148L,
+                            DisplayOrder = 1,
                             QuestionId = 3807643L,
-                            DisplayOrder = 1,
                             Text = "{\"nl-NL\":\"Mee oneens\",\"en-US\":\"Disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969147L,
+                            Id = 17969147L,
+                            DisplayOrder = 2,
                             QuestionId = 3807643L,
-                            DisplayOrder = 2,
                             Text = "{\"nl-NL\":\"Niet mee eens/ niet mee oneens\",\"en-US\":\"Neither agree nor disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969146L,
+                            Id = 17969146L,
+                            DisplayOrder = 3,
                             QuestionId = 3807643L,
-                            DisplayOrder = 3,
                             Text = "{\"nl-NL\":\"Mee eens\",\"en-US\":\"Agree\"}"
                         },
                         new
                         {
-                            OptionId = 17969145L,
+                            Id = 17969145L,
+                            DisplayOrder = 4,
                             QuestionId = 3807643L,
-                            DisplayOrder = 4,
                             Text = "{\"nl-NL\":\"Helemaal mee eens\",\"en-US\":\"Strongly agree\"}"
                         },
                         new
                         {
-                            OptionId = 18166389L,
-                            QuestionId = 3851855L,
+                            Id = 18166389L,
                             DisplayOrder = 0,
+                            QuestionId = 3851855L,
                             Text = "{\"nl-NL\":\"Helemaal mee oneens\",\"en-US\":\"Strongly disagree\"}"
                         },
                         new
                         {
-                            OptionId = 18166388L,
-                            QuestionId = 3851855L,
+                            Id = 18166388L,
                             DisplayOrder = 1,
+                            QuestionId = 3851855L,
                             Text = "{\"nl-NL\":\"Mee oneens\",\"en-US\":\"Disagree\"}"
                         },
                         new
                         {
-                            OptionId = 18166387L,
-                            QuestionId = 3851855L,
+                            Id = 18166387L,
                             DisplayOrder = 2,
+                            QuestionId = 3851855L,
                             Text = "{\"nl-NL\":\"Niet mee eens/ niet mee oneens\",\"en-US\":\"Neither agree nor disagree\"}"
                         },
                         new
                         {
-                            OptionId = 18166386L,
-                            QuestionId = 3851855L,
+                            Id = 18166386L,
                             DisplayOrder = 3,
+                            QuestionId = 3851855L,
                             Text = "{\"nl-NL\":\"Mee eens\",\"en-US\":\"Agree\"}"
                         },
                         new
                         {
-                            OptionId = 18166385L,
-                            QuestionId = 3851855L,
+                            Id = 18166385L,
                             DisplayOrder = 4,
+                            QuestionId = 3851855L,
                             Text = "{\"nl-NL\":\"Helemaal mee eens\",\"en-US\":\"Strongly agree\"}"
                         },
                         new
                         {
-                            OptionId = 17969415L,
-                            QuestionId = 3807701L,
+                            Id = 17969415L,
                             DisplayOrder = 0,
+                            QuestionId = 3807701L,
                             Text = "{\"nl-NL\":\"Helemaal mee oneens\",\"en-US\":\"Strongly disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969414L,
-                            QuestionId = 3807701L,
+                            Id = 17969414L,
                             DisplayOrder = 1,
+                            QuestionId = 3807701L,
                             Text = "{\"nl-NL\":\"Mee oneens\",\"en-US\":\"Disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969413L,
-                            QuestionId = 3807701L,
+                            Id = 17969413L,
                             DisplayOrder = 2,
+                            QuestionId = 3807701L,
                             Text = "{\"nl-NL\":\"Niet mee eens/ niet mee oneens\",\"en-US\":\"Neither agree nor disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969412L,
-                            QuestionId = 3807701L,
+                            Id = 17969412L,
                             DisplayOrder = 3,
+                            QuestionId = 3807701L,
                             Text = "{\"nl-NL\":\"Mee eens\",\"en-US\":\"Agree\"}"
                         },
                         new
                         {
-                            OptionId = 17969411L,
-                            QuestionId = 3807701L,
+                            Id = 17969411L,
                             DisplayOrder = 4,
+                            QuestionId = 3807701L,
                             Text = "{\"nl-NL\":\"Helemaal mee eens\",\"en-US\":\"Strongly agree\"}"
                         },
                         new
                         {
-                            OptionId = 17969154L,
-                            QuestionId = 3807644L,
+                            Id = 17969154L,
                             DisplayOrder = 0,
+                            QuestionId = 3807644L,
                             Text = "{\"nl-NL\":\"Helemaal mee oneens\",\"en-US\":\"Strongly disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969153L,
-                            QuestionId = 3807644L,
+                            Id = 17969153L,
                             DisplayOrder = 1,
+                            QuestionId = 3807644L,
                             Text = "{\"nl-NL\":\"Mee oneens\",\"en-US\":\"Disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969152L,
-                            QuestionId = 3807644L,
+                            Id = 17969152L,
                             DisplayOrder = 2,
+                            QuestionId = 3807644L,
                             Text = "{\"nl-NL\":\"Niet mee eens/ niet mee oneens\",\"en-US\":\"Neither agree nor disagree\"}"
                         },
                         new
                         {
-                            OptionId = 17969151L,
-                            QuestionId = 3807644L,
+                            Id = 17969151L,
                             DisplayOrder = 3,
+                            QuestionId = 3807644L,
                             Text = "{\"nl-NL\":\"Mee eens\",\"en-US\":\"Agree\"}"
                         },
                         new
                         {
-                            OptionId = 17969150L,
-                            QuestionId = 3807644L,
+                            Id = 17969150L,
                             DisplayOrder = 4,
+                            QuestionId = 3807644L,
                             Text = "{\"nl-NL\":\"Helemaal mee eens\",\"en-US\":\"Strongly agree\"}"
                         },
                         new
                         {
-                            OptionId = 18166291L,
-                            QuestionId = 3851843L,
+                            Id = 18166291L,
                             DisplayOrder = 0,
+                            QuestionId = 3851843L,
                             Text = "{\"nl-NL\":\"Helemaal mee oneens\",\"en-US\":\"Strongly disagree\"}"
                         },
                         new
                         {
-                            OptionId = 18166290L,
-                            QuestionId = 3851843L,
+                            Id = 18166290L,
                             DisplayOrder = 1,
+                            QuestionId = 3851843L,
                             Text = "{\"nl-NL\":\"Mee oneens\",\"en-US\":\"Disagree\"}"
                         },
                         new
                         {
-                            OptionId = 18166289L,
-                            QuestionId = 3851843L,
+                            Id = 18166289L,
                             DisplayOrder = 2,
+                            QuestionId = 3851843L,
                             Text = "{\"nl-NL\":\"Niet mee eens/ niet mee oneens\",\"en-US\":\"Neither agree nor disagree\"}"
                         },
                         new
                         {
-                            OptionId = 18166288L,
-                            QuestionId = 3851843L,
+                            Id = 18166288L,
                             DisplayOrder = 3,
+                            QuestionId = 3851843L,
                             Text = "{\"nl-NL\":\"Mee eens\",\"en-US\":\"Agree\"}"
                         },
                         new
                         {
-                            OptionId = 18166287L,
-                            QuestionId = 3851843L,
+                            Id = 18166287L,
                             DisplayOrder = 4,
+                            QuestionId = 3851843L,
                             Text = "{\"nl-NL\":\"Helemaal mee eens\",\"en-US\":\"Strongly agree\"}"
                         },
                         new
                         {
-                            OptionId = 18166394L,
-                            QuestionId = 3851856L,
+                            Id = 18166394L,
                             DisplayOrder = 0,
+                            QuestionId = 3851856L,
                             Text = "{\"nl-NL\":\"Helemaal mee oneens\",\"en-US\":\"Strongly disagree\"}"
                         },
                         new
                         {
-                            OptionId = 18166393L,
-                            QuestionId = 3851856L,
+                            Id = 18166393L,
                             DisplayOrder = 1,
+                            QuestionId = 3851856L,
                             Text = "{\"nl-NL\":\"Mee oneens\",\"en-US\":\"Disagree\"}"
                         },
                         new
                         {
-                            OptionId = 18166392L,
-                            QuestionId = 3851856L,
+                            Id = 18166392L,
                             DisplayOrder = 2,
+                            QuestionId = 3851856L,
                             Text = "{\"nl-NL\":\"Niet mee eens/ niet mee oneens\",\"en-US\":\"Neither agree nor disagree\"}"
                         },
                         new
                         {
-                            OptionId = 18166391L,
-                            QuestionId = 3851856L,
+                            Id = 18166391L,
                             DisplayOrder = 3,
+                            QuestionId = 3851856L,
                             Text = "{\"nl-NL\":\"Mee eens\",\"en-US\":\"Agree\"}"
                         },
                         new
                         {
-                            OptionId = 18166390L,
-                            QuestionId = 3851856L,
+                            Id = 18166390L,
                             DisplayOrder = 4,
+                            QuestionId = 3851856L,
                             Text = "{\"nl-NL\":\"Helemaal mee eens\",\"en-US\":\"Strongly agree\"}"
                         },
                         new
                         {
-                            OptionId = 0L,
-                            QuestionId = 3810105L,
-                            DisplayOrder = 0
+                            Id = -1L,
+                            DisplayOrder = 0,
+                            QuestionId = 3810105L
                         });
                 });
 
@@ -481,15 +486,15 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
 
             modelBuilder.Entity("Effectory.Questionnaire.Domain.Entities.Answer", b =>
                 {
-                    b.HasOne("Effectory.Questionnaire.Domain.Entities.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
+                    b.HasOne("Effectory.Questionnaire.Domain.Entities.QuestionAnswerOption", "Option")
+                        .WithMany("Answers")
+                        .HasForeignKey("OptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Effectory.Questionnaire.Domain.Entities.QuestionAnswerOption", "Option")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId", "OptionId")
+                    b.HasOne("Effectory.Questionnaire.Domain.Entities.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
