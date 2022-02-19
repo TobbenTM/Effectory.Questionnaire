@@ -4,7 +4,7 @@ using Effectory.Questionnaire.Domain.Support.AnswerContent;
 
 namespace Effectory.Questionnaire.Infrastructure.Repositories;
 
-public class AnswerRepository : IAnswerRepository
+public class AnswerRepository : IAnswerRepository, IAnswerStatisticsRepository
 {
     private readonly QuestionnaireDbContext _dbContext;
 

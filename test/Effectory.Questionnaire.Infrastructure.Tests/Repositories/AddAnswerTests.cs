@@ -52,7 +52,7 @@ public class AddAnswerTests : IClassFixture<InMemoryDatabaseFixture>
                                 {
                                     new QuestionAnswerOption
                                     {
-                                        Id = expectedQuestionAnswerOptionId,
+                                        OptionId = expectedQuestionAnswerOptionId,
                                     },
                                 }
                             }

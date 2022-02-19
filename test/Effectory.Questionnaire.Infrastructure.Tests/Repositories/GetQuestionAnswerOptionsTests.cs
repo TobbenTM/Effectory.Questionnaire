@@ -57,11 +57,11 @@ public class GetQuestionAnswerOptionsTests : IClassFixture<InMemoryDatabaseFixtu
                             {
                                 new QuestionAnswerOption
                                 {
-                                    Id = 100,
+                                    OptionId = 100,
                                 },
                                 new QuestionAnswerOption
                                 {
-                                    Id = 200,
+                                    OptionId = 200,
                                 },
                             }
                         }
@@ -76,8 +76,8 @@ public class GetQuestionAnswerOptionsTests : IClassFixture<InMemoryDatabaseFixtu
 
         // Assert
         Assert.Collection(results,
-            o => Assert.Equal(100, o.Id),
-            o => Assert.Equal(200, o.Id));
+            o => Assert.Equal(100, o.OptionId),
+            o => Assert.Equal(200, o.OptionId));
     }
 
     [Fact]
@@ -102,11 +102,11 @@ public class GetQuestionAnswerOptionsTests : IClassFixture<InMemoryDatabaseFixtu
                             {
                                 new QuestionAnswerOption
                                 {
-                                    Id = 100,
+                                    OptionId = 100,
                                 },
                                 new QuestionAnswerOption
                                 {
-                                    Id = 200,
+                                    OptionId = 200,
                                 },
                             }
                         }
@@ -120,6 +120,6 @@ public class GetQuestionAnswerOptionsTests : IClassFixture<InMemoryDatabaseFixtu
         var results = await _repo.GetQuestionAnswerOptions(expectedQuestionId, 1, 1, CancellationToken.None);
 
         // Assert
-        Assert.Collection(results, o => Assert.Equal(200, o.Id));
+        Assert.Collection(results, o => Assert.Equal(200, o.OptionId));
     }
 }

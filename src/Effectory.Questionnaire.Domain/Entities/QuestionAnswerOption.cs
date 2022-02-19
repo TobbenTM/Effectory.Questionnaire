@@ -4,12 +4,12 @@ namespace Effectory.Questionnaire.Domain.Entities;
 
 public class QuestionAnswerOption
 {
-    public long Id { get; init; }
+    public long OptionId { get; init; }
 
     public long QuestionId { get; init; }
     public Question Question { get; init; } = null!;
 
     public int DisplayOrder { get; init; }
 
-    public LocalizedText Text { get; init; } = new();
+    public LocalizedText? Text { get; init; }
 }

@@ -1,7 +1,9 @@
 ﻿using Effectory.Questionnaire.Domain.Entities;
 using Effectory.Questionnaire.Domain.Support;
 using Effectory.Questionnaire.Domain.Support.AnswerContent;
+using Effectory.Questionnaire.Infrastructure.Seed;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 
 namespace Effectory.Questionnaire.Infrastructure;
@@ -44,22 +46,44 @@ public class QuestionnaireDbContext : DbContext
                 v => JsonConvert.DeserializeObject<IAnswerContent?>(v,
                     new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All}));
 
+        var localizedTextComparer = new ValueComparer<LocalizedText>(
+            (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
+            c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+            c => new LocalizedText(c.ToDictionary(kv => kv.Key, kv => kv.Value)));
+
+        modelBuilder.Entity<QuestionAnswerOption>()
+            .HasKey(o => new {AnswerId = o.OptionId, o.QuestionId });
         modelBuilder.Entity<QuestionAnswerOption>()
             .Property(a => a.Text)
             .HasConversion(
                 v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<LocalizedText>(v));
+                v => JsonConvert.DeserializeObject<LocalizedText>(v),
+                localizedTextComparer);
 
         modelBuilder.Entity<Subject>()
             .Property(a => a.Text)
             .HasConversion(
                 v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<LocalizedText>(v));
+                v => JsonConvert.DeserializeObject<LocalizedText>(v),
+                localizedTextComparer);
 
         modelBuilder.Entity<Question>()
             .Property(a => a.Text)
             .HasConversion(
                 v => JsonConvert.SerializeObject(v),
-                v => JsonConvert.DeserializeObject<LocalizedText>(v));
+                v => JsonConvert.DeserializeObject<LocalizedText>(v),
+                localizedTextComparer);
+
+        // Add seed data based on initial JSON payload given
+        var seed = SeedData.Load().Result;
+
+        modelBuilder.Entity<RootQuestionnaire>()
+            .HasData(seed.Root);
+        modelBuilder.Entity<Subject>()
+            .HasData(seed.Subjects);
+        modelBuilder.Entity<Question>()
+            .HasData(seed.Questions);
+        modelBuilder.Entity<QuestionAnswerOption>()
+            .HasData(seed.QuestionAnswerOptions);
     }
 }

@@ -10,5 +10,7 @@ public class Subject
 
     public LocalizedText Text { get; init; } = new();
 
-    public IEnumerable<Question> Questions { get; init; } = new List<Question>();
+    public ICollection<Question> Questions { get; init; } = new List<Question>();
+
+    public ICollection<RootQuestionnaire> Questionnaires { get; init; } = new List<RootQuestionnaire>();
 }
