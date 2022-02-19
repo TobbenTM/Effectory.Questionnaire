@@ -27,7 +27,7 @@ public class QuestionnaireDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Two small code smells here:
+        // Some small code smells here:
         // 1. This "hacky" way of storing complex objects in a relational
         //    database might indicate that a noSQL document store is a
         //    better approach, but in the essence of simplicity, I'm doing
@@ -37,6 +37,8 @@ public class QuestionnaireDbContext : DbContext
         //    is one thing missing from that which Newtonsoft.Json does simpler
         //    which is polymorphic ser/de. While not impossible in System.Text.Json,
         //    I'm opting for the minimal approach here.
+        // 3. The relationships became a bit complicated, had I had time,
+        //    I would love to refactor this to be have a better relationship graph.
 
         modelBuilder.Entity<Answer>()
             .Property(a => a.Content)
@@ -46,13 +48,18 @@ public class QuestionnaireDbContext : DbContext
                 v => JsonConvert.DeserializeObject<IAnswerContent?>(v,
                     new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All}));
 
+        // modelBuilder.Entity<Answer>()
+        //     .HasOne(a => a.Option)
+        //     .WithMany(o => o.Answers)
+        //     .HasForeignKey(a => new {a.QuestionId, a.OptionId});
+
         var localizedTextComparer = new ValueComparer<LocalizedText>(
             (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
             c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
             c => new LocalizedText(c.ToDictionary(kv => kv.Key, kv => kv.Value)));
 
-        modelBuilder.Entity<QuestionAnswerOption>()
-            .HasKey(o => new {AnswerId = o.OptionId, o.QuestionId });
+        // modelBuilder.Entity<QuestionAnswerOption>()
+        //     .HasKey(o => new {AnswerId = o.OptionId, o.QuestionId });
         modelBuilder.Entity<QuestionAnswerOption>()
             .Property(a => a.Text)
             .HasConversion(

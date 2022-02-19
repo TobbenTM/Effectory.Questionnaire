@@ -107,9 +107,7 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     QuestionId = table.Column<long>(type: "bigint", nullable: false),
-                    QuestionAnswerOptionId = table.Column<long>(type: "bigint", nullable: false),
-                    QuestionAnswerOptionOptionId = table.Column<long>(type: "bigint", nullable: false),
-                    QuestionAnswerOptionQuestionId = table.Column<long>(type: "bigint", nullable: false),
+                    OptionId = table.Column<long>(type: "bigint", nullable: false),
                     Content = table.Column<string>(type: "text", nullable: true),
                     AnsweredByUserId = table.Column<long>(type: "bigint", nullable: false),
                     Department = table.Column<string>(type: "text", nullable: false)
@@ -118,8 +116,8 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Answers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Answers_QuestionAnswerOptions_QuestionAnswerOptionOptionId_~",
-                        columns: x => new { x.QuestionAnswerOptionOptionId, x.QuestionAnswerOptionQuestionId },
+                        name: "FK_Answers_QuestionAnswerOptions_QuestionId_OptionId",
+                        columns: x => new { x.QuestionId, x.OptionId },
                         principalTable: "QuestionAnswerOptions",
                         principalColumns: new[] { "OptionId", "QuestionId" },
                         onDelete: ReferentialAction.Cascade);
@@ -137,11 +135,6 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
                 value: 1000L);
 
             migrationBuilder.InsertData(
-                table: "Questions",
-                columns: new[] { "Id", "DisplayOrder", "SubjectId", "Text" },
-                values: new object[] { 3810105L, 2, 2605521L, "{\"nl-NL\":\"Als je deze organisatie één tip mag geven, wat zou dat dan zijn?\",\"en-US\":\"If you could give this organisation one tip, what would it be?\"}" });
-
-            migrationBuilder.InsertData(
                 table: "Subjects",
                 columns: new[] { "Id", "DisplayOrder", "Text" },
                 values: new object[,]
@@ -149,11 +142,6 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
                     { 2605515L, 0, "{\"nl-NL\":\"Mijn werk\",\"en-US\":\"My work\"}" },
                     { 2605516L, 1, "{\"nl-NL\":\"Mijn rol\",\"en-US\":\"My role\"}" }
                 });
-
-            migrationBuilder.InsertData(
-                table: "QuestionAnswerOptions",
-                columns: new[] { "OptionId", "QuestionId", "DisplayOrder", "Text" },
-                values: new object[] { 0L, 3810105L, 0, null });
 
             migrationBuilder.InsertData(
                 table: "Questions",
@@ -164,6 +152,7 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
                     { 3807643L, 1, 2605515L, "{\"en-US\":\"I enjoy doing my work\",\"nl-NL\":\"Ik doe mijn werk met plezier\"}" },
                     { 3807644L, 4, 2605515L, "{\"nl-NL\":\"Ik heb het gevoel dat ik met mijn werk een bijdrage lever\",\"en-US\":\"I feel I contribute meaningfully through my work\"}" },
                     { 3807701L, 3, 2605515L, "{\"nl-NL\":\"Ik heb voldoende verantwoordelijkheid in mijn werk\",\"en-US\":\"I have sufficient responsibilities in my work\"}" },
+                    { 3810105L, 2, 2605516L, "{\"nl-NL\":\"Als je deze organisatie één tip mag geven, wat zou dat dan zijn?\",\"en-US\":\"If you could give this organisation one tip, what would it be?\"}" },
                     { 3851843L, 0, 2605516L, "{\"nl-NL\":\"Ik weet hoe mijn werk bijdraagt aan de visie en doelen van Organisatie\",\"en-US\":\"It is clear to me how my work contributes to the organisation's strategy\"}" },
                     { 3851855L, 2, 2605515L, "{\"nl-NL\":\"Ik vind mijn werk uitdagend\",\"en-US\":\"My work is enjoyably challenging\"}" },
                     { 3851856L, 1, 2605516L, "{\"nl-NL\":\"Ik geef in de dagelijkse praktijk feedback aan de mensen met wie ik samenwerk\",\"en-US\":\"I give feedback to the people I work with in the daily practice of work\"}" }
@@ -174,6 +163,7 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
                 columns: new[] { "OptionId", "QuestionId", "DisplayOrder", "Text" },
                 values: new object[,]
                 {
+                    { 0L, 3810105L, 0, null },
                     { 17969120L, 3807638L, 4, "{\"nl-NL\":\"Helemaal mee eens\",\"en-US\":\"Strongly agree\"}" },
                     { 17969121L, 3807638L, 3, "{\"nl-NL\":\"Mee eens\",\"en-US\":\"Agree\"}" },
                     { 17969122L, 3807638L, 2, "{\"nl-NL\":\"Niet mee eens/ niet mee oneens\",\"en-US\":\"Neither agree nor disagree\"}" },
@@ -212,14 +202,9 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Answers_QuestionAnswerOptionOptionId_QuestionAnswerOptionQu~",
+                name: "IX_Answers_QuestionId_OptionId",
                 table: "Answers",
-                columns: new[] { "QuestionAnswerOptionOptionId", "QuestionAnswerOptionQuestionId" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Answers_QuestionId",
-                table: "Answers",
-                column: "QuestionId");
+                columns: new[] { "QuestionId", "OptionId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuestionAnswerOptions_QuestionId",

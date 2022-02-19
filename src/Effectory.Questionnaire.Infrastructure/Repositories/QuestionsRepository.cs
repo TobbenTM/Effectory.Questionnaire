@@ -15,6 +15,7 @@ public class QuestionsRepository : IQuestionsRepository
 
     public Task<List<Question>> GetQuestions(long subjectId, int pageOffset, int pageSize, CancellationToken cancellationToken)
         => _dbContext.Questions
+            .AsNoTracking()
             .Where(q => q.SubjectId == subjectId)
             .OrderBy(q => q.DisplayOrder)
             .Skip(pageOffset * pageSize)
@@ -23,6 +24,7 @@ public class QuestionsRepository : IQuestionsRepository
 
     public Task<List<QuestionAnswerOption>> GetQuestionAnswerOptions(long questionId, int pageOffset, int pageSize, CancellationToken cancellationToken)
         => _dbContext.QuestionAnswerOptions
+            .AsNoTracking()
             .Where(o => o.QuestionId == questionId)
             .OrderBy(q => q.DisplayOrder)
             .Skip(pageOffset * pageSize)

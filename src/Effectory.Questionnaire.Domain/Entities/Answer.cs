@@ -9,8 +9,8 @@ public class Answer
     public long QuestionId { get; init; }
     public Question Question { get; init; } = null!;
 
-    public long QuestionAnswerOptionId { get; init; }
-    public QuestionAnswerOption QuestionAnswerOption { get; init; } = null!;
+    public long OptionId { get; init; }
+    public QuestionAnswerOption Option { get; init; } = null!;
 
     public IAnswerContent? Content { get; init; }
 

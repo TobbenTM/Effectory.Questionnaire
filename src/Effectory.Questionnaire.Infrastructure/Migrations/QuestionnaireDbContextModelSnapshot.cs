@@ -39,13 +39,7 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("QuestionAnswerOptionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("QuestionAnswerOptionOptionId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("QuestionAnswerOptionQuestionId")
+                    b.Property<long>("OptionId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("QuestionId")
@@ -53,9 +47,7 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("QuestionAnswerOptionOptionId", "QuestionAnswerOptionQuestionId");
+                    b.HasIndex("QuestionId", "OptionId");
 
                     b.ToTable("Answers");
                 });
@@ -138,7 +130,7 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
                         {
                             Id = 3810105L,
                             DisplayOrder = 2,
-                            SubjectId = 2605521L,
+                            SubjectId = 2605516L,
                             Text = "{\"nl-NL\":\"Als je deze organisatie één tip mag geven, wat zou dat dan zijn?\",\"en-US\":\"If you could give this organisation one tip, what would it be?\"}"
                         });
                 });
@@ -493,15 +485,15 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Effectory.Questionnaire.Domain.Entities.QuestionAnswerOption", "QuestionAnswerOption")
-                        .WithMany()
-                        .HasForeignKey("QuestionAnswerOptionOptionId", "QuestionAnswerOptionQuestionId")
+                    b.HasOne("Effectory.Questionnaire.Domain.Entities.QuestionAnswerOption", "Option")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId", "OptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Question");
+                    b.Navigation("Option");
 
-                    b.Navigation("QuestionAnswerOption");
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("Effectory.Questionnaire.Domain.Entities.Question", b =>
@@ -544,6 +536,11 @@ namespace Effectory.Questionnaire.Infrastructure.Migrations
             modelBuilder.Entity("Effectory.Questionnaire.Domain.Entities.Question", b =>
                 {
                     b.Navigation("Options");
+                });
+
+            modelBuilder.Entity("Effectory.Questionnaire.Domain.Entities.QuestionAnswerOption", b =>
+                {
+                    b.Navigation("Answers");
                 });
 
             modelBuilder.Entity("Effectory.Questionnaire.Domain.Entities.Subject", b =>

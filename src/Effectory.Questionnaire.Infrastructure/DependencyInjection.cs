@@ -1,4 +1,5 @@
-﻿using Effectory.Questionnaire.Domain.Repositories;
+﻿using System.Reflection;
+using Effectory.Questionnaire.Domain.Repositories;
 using Effectory.Questionnaire.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,10 +13,14 @@ public static class DependencyInjection
     {
         services.AddDbContext<QuestionnaireDbContext>(opts =>
         {
-            opts.UseNpgsql(configuration.GetConnectionString(nameof(QuestionnaireDbContext)));
+            opts.UseNpgsql(configuration.GetConnectionString(nameof(QuestionnaireDbContext)), npgsql =>
+            {
+                npgsql.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+            });
         });
 
         services.AddTransient<IQuestionsRepository, QuestionsRepository>();
+        services.AddTransient<IAnswerStatisticsRepository, AnswerRepository>();
         services.AddTransient<IAnswerRepository, AnswerRepository>();
 
         return services;

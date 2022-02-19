@@ -13,5 +13,5 @@ public class Question
 
     public LocalizedText Text { get; init; } = new();
 
-    public IEnumerable<QuestionAnswerOption> Options { get; set; } = new List<QuestionAnswerOption>();
+    public IEnumerable<QuestionAnswerOption> Options { get; init; } = new List<QuestionAnswerOption>();
 }

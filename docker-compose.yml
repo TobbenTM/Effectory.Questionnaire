@@ -1,0 +1,42 @@
+﻿version: '3.5'
+
+services:
+
+  postgres:
+    image: postgres:14.2
+    environment:
+      POSTGRES_USER: effectory
+      POSTGRES_DB: effectory
+      PGDATA: /data/postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - effectory_postgres:/data/postgres
+    ports:
+      - "15432:5432"
+    networks:
+      - effectory
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4:6.5
+    environment:
+      PGADMIN_DEFAULT_EMAIL: effectory@dev.local
+      PGADMIN_DEFAULT_PASSWORD: effectory
+    volumes:
+      - effectory_pgadmin:/root/.pgadmin
+      - ./infrastructure/pgadmin/servers.json:/pgadmin4/servers.json
+      - ./infrastructure/pgadmin/pgpass:/pgpass
+    ports:
+      - "15050:80"
+    networks:
+      - effectory
+    restart: unless-stopped
+
+networks:
+  effectory:
+    driver: bridge
+    name: effectory
+
+volumes:
+    effectory_postgres:
+    effectory_pgadmin:

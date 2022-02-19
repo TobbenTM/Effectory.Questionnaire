@@ -57,7 +57,7 @@ internal class SeedData
             .SelectMany(subject => subject.QuestionnaireItems.SelectMany(question => question.QuestionnaireItems))
             .Select(option => new QuestionAnswerOption
             {
-                OptionId = option.AnswerId ?? 0, // A bit hacky this, can't have nullable key columns
+                Id = option.AnswerId ?? -1, // A bit hacky this, can't have nullable key columns
                 QuestionId = option.QuestionId,
                 DisplayOrder = option.OrderNumber,
                 Text = option.Texts == null ? null : new LocalizedText(option.Texts),
