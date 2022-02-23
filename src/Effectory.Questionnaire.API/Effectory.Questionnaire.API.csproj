@@ -19,7 +19,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Effectory.Questionnaire.Application\Effectory.Questionnaire.Application.csproj" />
       <ProjectReference Include="..\Effectory.Questionnaire.Domain\Effectory.Questionnaire.Domain.csproj" />
       <ProjectReference Include="..\Effectory.Questionnaire.Infrastructure\Effectory.Questionnaire.Infrastructure.csproj" />
     </ItemGroup>
